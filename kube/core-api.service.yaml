@@ -1,0 +1,57 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: core-api
+  name: core-api
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: core-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: core-api
+    spec:
+      containers:
+      - image: igv2/core-api:v0.0.7
+        imagePullPolicy: IfNotPresent
+        name: core-api
+        ports:
+        - containerPort: 80
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: core-api
+  name: core-api
+  namespace: default
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v0
+      kind:  Mapping
+      name:  fws-core-api_mapping
+      prefix: /core/
+      rewrite: /core/
+      service: core-api
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: core-api
+  sessionAffinity: None
+  type: ClusterIP

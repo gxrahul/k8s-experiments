@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  api_core_mongo:
+    image: 'mongo:3.6.5'
+    container_name: igv2-core-api-mongo
+    ports:
+      - 5555:27017
+    volumes:
+      - './db-data:/data/db'
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: 'root'
+      # MONGO_INITDB_ROOT_PASSWORD: 'password'
+      # MONGO_INITDB_DATABASE: 'igv2-core-api-db'
+    restart: always
+  api_core:
+    build: .
+    image: 'igv2/core-api:v0.0.7'
+    container_name: igv2-core-api-service
+    ports:
+      - 6001:80
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - api_core_mongo
+    environment:
+      DB_URL: 'mongodb://api_core_mongo:27017/igv2-core-api-db'
+      PORT: 80
+    command: 'npm run start:dev'
+    # restart: always

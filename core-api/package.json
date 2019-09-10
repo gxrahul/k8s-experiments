@@ -1,0 +1,40 @@
+{
+  "name": "ideagist-core-api",
+  "version": "1.0.0",
+  "description": "Ideagist Core API",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha test/**/*.js",
+    "start:dev": "NODE_ENV=dev && pm2 start server.js --no-daemon",
+    "start:prod": "NODE_ENV=production && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/IdeagistV2/ideagist-core-api.git"
+  },
+  "author": "Rahul Ranjan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/IdeagistV2/ideagist-core-api/issues"
+  },
+  "homepage": "https://gitlab.com/IdeagistV2/ideagist-core-api#README",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.4",
+    "morgan": "^1.9.0",
+    "node-abac": "0.0.7",
+    "pm2": "^2.10.4",
+    "validator": "^10.8.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.14.12",
+    "sinon": "^5.0.10",
+    "sinon-mongoose": "^2.1.1",
+    "sinon-test": "^2.2.0"
+  }
+}
